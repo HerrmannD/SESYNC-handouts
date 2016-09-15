@@ -30,14 +30,14 @@ ggplot(ex1df, aes(year, weight))+
 ## Adding a regression line
 
 levels(surveys$sex) <- c("Female", "Male")
-surveys_dm <- filter(surveys, ...)
-ggplot(...,
-       aes(x = year, y = weight)) +
-  geom_point(...,
+surveys_dm <- filter(surveys, species_id=="DM")
+ggplot(surveys_dm,
+       aes(x = year, y = weight,color=sex)) +
+  geom_point(aes(shape=sex),
              size = 3,
              stat = "summary",
              fun.y = "mean") +
-  ...
+  geom_smooth(aes(method="lm")
 
 ggplot(data = surveys_dm,
        aes(...,
@@ -65,12 +65,14 @@ year_wgt +
   ...
                      
 year_wgt <- year_wgt +
-  scale_color_manual(...)
+  scale_color_manual(values=c("darkblue","orange"))
 year_wgt
 
 ## Exercise 2
 
-...
+ex2df <- filter(surveys, species_id=="DM")
+ggplot(ex2df, aes(weight, fill=sex))+
+  geom_histogram(binwidth=2)
 
 ## Axes, labels and themes
 
@@ -104,7 +106,7 @@ levels(surveys_dm$month) <- c("January", "February", "March", "April", "May", "J
 ggplot(data = surveys_dm,
        aes(x = weight)) +
   geom_histogram() +
-  ...
+  facet_wrap( ~ month)+
   labs(title = "DM weight distribution by month",
        x = "Count",
        y = "Weight (g)")
