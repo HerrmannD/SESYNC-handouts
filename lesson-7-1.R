@@ -31,34 +31,34 @@ text(coordinates(counties_md),#will place text at centroids of counties
 
 library(raster)
 
-nlcd <- raster(...)
+nlcd <- raster("data/nlcd_agg.grd")
 
-plot(...)
+attr_table <- nlcd@data@attributes[[1]]
 
-... <- nlcd@data@attributes[[1]]
-
+plot(nlcd)
 
 # Change projections
 
-proj4string(...)
+proj4string(counties_md)
 
-counties_proj <- spTransform(..., proj4string(...))
+counties_proj <- spTransform(counties_md, proj4string(nlcd))
 
 plot(nlcd)
-plot(..., ...)
+plot(counties_proj, add=T)
 
 
 # Masking a raster
+pasture <- mask(nlcd, nlcd==81, maskvalue = F)
+plot(pasture)
 
-pasture <- mask(nlcd, ..., maskvalue = ...)
-plot(...)
 
 # Exercise
 
 # Create a mask for a different land cover class. 
 #  Look up the numeric ID for a specific class in attr_table.
 
-...
+city <- mask(nlcd, nlcd==22:24, maskvalue = F)
+plot(city)
 
 
 # Adding data to maps with tmap
