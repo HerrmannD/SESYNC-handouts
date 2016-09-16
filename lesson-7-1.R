@@ -2,16 +2,18 @@
 
 library(rgdal)
 
-counties_md <- readOGR(..., ...)
+counties_md <- readOGR("data/cb_500k_maryland", #folder with all the bits
+                       "cb_500k_maryland") #shapefile in that folder
 
 
 # Basic spatial plots
 
-plot(...)
+plot(counties_md)
 
-howard <- counties_md[..., ]
-plot(howard, ..., ...)
-text(..., ... = counties_md[["NAME"]], cex = ...)
+howard <- counties_md[counties_md[["NAME"]]=="Howard", ]
+plot(howard, col="red", add=T)
+text(coordinates(counties_md),#will place text at centroids of counties
+     labels = counties_md[["NAME"]], cex = 0.7)
 
 # Exercise
 
@@ -19,7 +21,10 @@ text(..., ... = counties_md[["NAME"]], cex = ...)
 #  the smallest (1) to largest (24) in land area ("ALAND" attribute). 
 # Hint: Use `rank(x)` to get ranks from a numeric vector x.
 
-...
+counties_md$rank <- rank(counties_md$ALAND)
+plot(counties_md)
+text(coordinates(counties_md),#will place text at centroids of counties
+     labels = counties_md[["rank"]], cex = 0.7)
 
 
 # Reading rasters into R
